@@ -1,17 +1,18 @@
-Minimal Reproducible Example: SDK 1.43.0 TmpSuiteListener Bug
+# Minimal Reproducible Example: SDK 1.43.0 `TmpSuiteListener` Bug
 
-This project provides the minimal configuration to reproduce the SurefireBooterForkException caused by the BrowserStack SDK (v1.43.0) when using a Maven profile that does not include the SDK on its classpath.
+This project provides the minimal configuration to reproduce the `SurefireBooterForkException` caused by the BrowserStack SDK (v1.43.0) when using a Maven profile that does not include the SDK on its classpath.
 
-Prerequisites
+## Prerequisites
 
-Java 17
+* Java 17
 
-Apache Maven
+* Apache Maven
 
-1. How to Reproduce the Failure
+## 1. How to Reproduce the Failure
 
-Run the build using the local profile, which does not configure the BrowserStack SDK java agent.
+Run the build using the `local` profile, which does **not** configure the BrowserStack SDK java agent.
 
+```
 # Step 1: Clean and install dependencies
 # This ensures all plugins are downloaded, including the SDK 1.43.0
 mvn clean install
@@ -21,10 +22,13 @@ mvn clean install
 mvn test -P local
 
 
-Expected (Failure) Output
+```
+
+### Expected (Failure) Output
 
 You will see the build fail with the errors reported in the bug:
 
+```
 [INFO] --- surefire:3.5.4:test (default-cli) @ sdk-bug-mre ---
 [INFO] Using auto-detected provider org.apache.maven.surefire.testng.TestNGProvider
 ...
@@ -37,52 +41,47 @@ You will see the build fail with the errors reported in the bug:
 [INFO] ------------------------------------------------------------------------
 
 
-2. How to Show the "Working" (BrowserStack) Build
+```
 
-If you run the build using the browserstack profile, it will work. This proves that the basic setup is correct.
+## 2. How to Show the "Working" (BrowserStack) Build
 
+If you run the build using the `browserstack` profile, it will work. This proves that the basic setup is correct.
+
+```
 # This command will pass (assuming no BS_USERNAME/BS_ACCESS_KEY are set,
 # it will just fail the SDK auth, but the test itself will *run*).
 mvn test -P browserstack
 
 
-3. How to Demonstrate the Workaround
+```
 
-To prove this is a regression in 1.43.0, edit the pom.xml file:
+## 3. How to Demonstrate the Workaround
 
-Change the <browserstack.sdk.version> property:
+To prove this is a regression in `1.43.0`, edit the `pom.xml` file:
 
-From:
+1. **Change** the `<browserstack.sdk.version>` property:
 
-<browserstack.sdk.version>1.43.0</browserstack.sdk.version>
+   *From:*
 
+   ```
+   <browserstack.sdk.version>1.43.0</browserstack.sdk.version>
+   
+   
+   ```
 
-To:
+   *To:*
 
-<browserstack.sdk.version>1.42.0</browserstack.sdk.version>
+   ```
+   <browserstack.sdk.version>1.42.4</browserstack.sdk.version>
+   
+   
+   ```
 
+2. Re-run the **failing command** from Step 1:
 
-Re-run the failing command from Step 1:
-
-# Re-run the same 'local' profile test
-mvn test -P local
-
-
-Expected (Success) Output
-
-With version 1.42.0, the local profile build will now succeed.
-
-[INFO] --- surefire:3.5.4:test (default-cli) @ sdk-bug-mre ---
-[INFO] Using auto-detected provider org.apache.maven.surefire.testng.TestNGProvider
-...
-Running testLocalExecution()...
-Finished testLocalExecution().
-...
-[INFO] 
-[INFO] Results:
-[INFO]
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
+   ```
+   # Re-run the same 'local' profile test
+   mvn test -P local
+   
+   
+   ```
