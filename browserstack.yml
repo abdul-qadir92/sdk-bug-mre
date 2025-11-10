@@ -1,0 +1,11 @@
+userName:
+accessKey:
+platforms:
+  - browserName: Chrome
+    os: Windows
+    osVersion: 10
+    browserVersion: 120.0
+buildIdentifier: ${BUILD_NUMBER}
+consoleLogs: info
+projectName: sdk-bug
+buildName: java
