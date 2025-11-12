@@ -22,7 +22,7 @@
         <cucumber.version>6.11.0</cucumber.version>
 
         <!-- The Problematic SDK Version -->
-        <browserstack.sdk.version>1.42.4</browserstack.sdk.version>
+        <browserstack.sdk.version>LATEST</browserstack.sdk.version>
         <!-- The Working SDK Version (for workaround) -->
         <!-- <browserstack.sdk.version>1.42.0</browserstack.sdk.version> -->
     </properties>

@@ -9,3 +9,4 @@ buildIdentifier: ${BUILD_NUMBER}
 consoleLogs: info
 projectName: sdk-bug
 buildName: java
+framework: testng
